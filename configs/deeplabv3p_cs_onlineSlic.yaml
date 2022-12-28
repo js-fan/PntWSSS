@@ -1,0 +1,41 @@
+---
+data:
+  train:
+    data_roots:
+      - /home/junsong_fan/diskf/data/cityscapes/leftImg8bit/train
+      - resources/labels/cityscapes/uniform_instance_pnt1.txt
+    data_type: [Image, Point]
+    image_size: [512, 1024]
+    rand_short: [512, 2048]
+    rand_crop: true
+    rand_mirror: true
+    rand_point_shift: 3
+    point_size: 12
+    max_superpixel: 128
+    online_superpixel: 0
+
+  test:
+    data_roots:
+      - /home/junsong_fan/diskf/data/cityscapes/leftImg8bit/val
+      - /home/junsong_fan/diskf/data/cityscapes/gtFine/val
+    data_type: [Image, Image]
+    image_size: [1024, 2048]
+    image_suffix: [".png", "_color.png"]
+
+model:
+  type: DeeplabV3Plus
+  args:
+    cfg_file: core/trd_party/mmsegmentation/configs/deeplabv3plus/deeplabv3plus_r50-d8_512x1024_40k_cityscapes.py
+ 
+schedule:
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 5.e-4
+  num_iters: 10000
+  batch_size: 16
+  test_epoch_interval: 5
+
+hyperparam:
+  aux_weight: 0.4
+  rampup_iters: 1500
+  pl_threshold: 0.5

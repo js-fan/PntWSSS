@@ -1,0 +1,35 @@
+----------------------
+What's the Point: Semantic Segmentation with Point Supervision
+----------------------
+
+The data corresponds to human clicks on objects collected using the procedure described in [1]. The images and objects are from PASCAL VOC 2012 train+val sets. The data is stored as a json string, formatted as follows:
+
+The outermost element is a dictionary
+  Key: an image ID (from the PASCAL VOC 2012 set)
+  Value: human clicks, stored as an array.
+
+Each click is represented using:
+  x = x coordinate in the image (zero-indexed)
+  y = y coordinate in the image
+  cls = class number, 1-20 (alphabetical ordering among PASCAL VOC classes)
+  rank = rank N means this was the worker's Nth click for this object class in this image (so Nth instance)
+
+In pascal2012_trainval_main.json, there is one worker per (image, object class) pair. S/he was instructed to click once on every INSTANCE of the object class. When running experiments with AllPoints, use all these clicks. When running experiments with 1Point, use only the first click (rank=1).
+
+In pascal2012_trainval_supp.json, there are two workers per (image, object class) pair, and thus usually two clicks with rank=1. Here the workers were instructed to click just once on the object class. When running experiments with 1Point and 3 annotators, use all clicks with rank=1 from both pascal2012_trainval_main.json and pascal2012_trainval_supp.json.
+
+If using this data, please cite [1].
+
+
+
+===========================
+
+Reference:
+
+[1] 
+@article{Bearman16,
+  author = {Amy Bearman and Olga Russakovsky and Vittorio Ferrari and Li Fei-Fei},
+  title = {{What's the Point: Semantic Segmentation with Point Supervision}},
+  journal = {ECCV},
+  year = {2016}
+}

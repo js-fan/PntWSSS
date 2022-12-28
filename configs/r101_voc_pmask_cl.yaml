@@ -1,0 +1,81 @@
+---
+data:
+  type: VOC
+  train:
+    data_roots:
+      - /home/junsong_fan/diskf/data/VOC2012/JPEGImages
+      - /home/junsong_fan/diskf/data/VOC2012/superpixel/mcg_png
+      - ./resources/whats_the_point/train_aug_points_gtBackground_xy.txt
+    data_type: [Image, Superpixel, Point]
+    image_suffix: [.jpg, .png]
+    name_prefix: ./resources/whats_the_point/sets/train_aug.txt
+    image_size: [321, 321]
+    #rand_short: [256, 768]
+    rand_scale: [0.5, 1.5]
+    rand_crop: true
+    rand_mirror: true
+    rand_point_shift: 0
+    point_size: 1
+    max_superpixel: 1024
+    rtn_image_label: true
+    post_resize_labels: [41, 41]
+
+  test:
+    data_roots:
+      - /home/junsong_fan/diskf/data/VOC2012/JPEGImages
+      - /home/junsong_fan/diskf/data/VOC2012/extra/SegmentationClassAug
+    data_type: [Image, Label2D]
+    image_size: ~
+    image_suffix: [.jpg, .png]
+    name_prefix: ./resources/whats_the_point/sets/val.txt
+
+model:
+  type: ProjectionModel
+  args:
+    base: DeeplabV2_R101
+    base_args:
+      num_classes: 21
+      aspp: true
+    base_stage_names: [base]
+    base_stage_dims: [2048]
+    proj_mid_dims: 512
+    proj_out_dims: 256
+    normalize: false
+  params_lr_mult:
+    - ['head', 10]
+  #- ['proj', 10]
+
+optimizer:
+  type: SGD
+  args:
+    lr: 0.00025
+    momentum: 0.9
+    weight_decay: 0.0005
+  scheduler:
+    type: Poly
+    args:
+      num_epochs: 30
+      power: 0.9
+  batch_size: 16
+  num_epochs: 30
+
+test:
+  test_epoch_interval: 10
+  test_scales: [0.75, 1, 1.25]
+  mirror: true
+
+train_func: point_pmask_cl
+
+hyperparam:
+  threshold: 0.3
+  warmup: 5
+
+  proj_type: pix2img
+  num_pos: 1
+  expand_batch: true
+
+  lambda_pmask: 0
+  lambda_cl: 1
+
+  use_memory: true
+  capacity: 64

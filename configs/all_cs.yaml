@@ -1,0 +1,46 @@
+---
+data:
+  train:
+    data_roots:
+      - /home/junsong_fan/diskf/data/cityscapes/leftImg8bit/train
+      - /home/junsong_fan/diskf/data/cityscapes/leftImg8bit_scg_png/train
+      - resources/labels/cityscapes/uniform_instance_pnt1.txt
+    data_type: [Image, Superpixel, Point]
+    image_size: [513, 1025]
+    rand_short: [513, 1537]
+    rand_crop: true
+    rand_mirror: true
+    rand_point_shift: 1
+    point_size: 5
+    max_superpixel: 1024
+    post_resize_labels: [65, 129]
+
+  test:
+    data_roots:
+      - /home/junsong_fan/diskf/data/cityscapes/leftImg8bit/val
+      - /home/junsong_fan/diskf/data/cityscapes/gtFine/val
+    data_type: [Image, Image]
+    image_size: [1024, 2048]
+    image_suffix: [".png", "_color.png"]
+
+model:
+  arch: vgg16_largefov
+  pretrained: ./pretrained/vgg16_20M.pth
+  attrs: 
+    num_classes: 19
+    dilation: 12
+    mode: seg
+ 
+schedule:
+  lr: 1.e-3
+  momentum: 0.9
+  weight_decay: 5.e-4
+  num_epochs: 40
+  batch_size: 16
+  test_epoch_interval: 5
+
+hyperparam:
+  pl_threshold: 0.1
+  lambda_ce: 1.0
+  lambda_pl: 1.0
+  rampup_pl: 5

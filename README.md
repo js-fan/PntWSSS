@@ -13,3 +13,6 @@ The results can be reproduced by simply runing scripts train_xxx.py, e.g.,
 ```bash
 python train_voc_all.py --gpus 0,1,2,3
 ```
+
+### TODO
+- [ ] clean code.

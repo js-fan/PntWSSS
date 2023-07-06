@@ -15,5 +15,5 @@ This is the implementation of the method described in paper: toward practical we
 ```bash
 python train_voc_all.py --gpus 0,1,2,3
 ```
-
+The scripts will automatically conduct evaluation and print logs during running.
 

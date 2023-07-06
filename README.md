@@ -9,10 +9,11 @@ This is the implementation of the method described in paper: toward practical we
 - Pydensecrf
 
 ### Usage
-The results can be reproduced by simply runing scripts train_xxx.py, e.g.,
+1. Prepare the dataset, e.g., [VOC](http://host.robots.ox.ac.uk/pascal/VOC/), [Cityscapes](https://www.cityscapes-dataset.com/), and [ADE20k](https://groups.csail.mit.edu/vision/datasets/ADE20K/). We only use the image and point-level labels as supervision, where the used point labels can be downloaded [here](https://drive.google.com/drive/folders/1OhgcQNcX1RfwzS0VyYhVoPsPUBzv88Ec?usp=sharing).
+
+2. Run the scripts to reproduce the results. Change the dataset path if necessary. The results with different datasets can be reproduced by simply running scripts train_xxx.py, e.g.,
 ```bash
 python train_voc_all.py --gpus 0,1,2,3
 ```
 
-### TODO
-- [ ] clean code.
+
